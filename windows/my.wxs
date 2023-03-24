@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?if $(env.ARCH) = x64 ?>
+  <?define ProductName = "Installer (64 bit)" ?>
+  <?define Win64 = "yes" ?>
+  <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else ?>
+  <?define ProductName = "Installer" ?>
+  <?define Win64 = "no" ?>
+  <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?endif ?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="1edc84cf-3a2b-4be9-ab5d-a1553c37e8ef" Name="Installer" Language="1033" Version="1.0.0.0" Manufacturer="Example" UpgradeCode="2a82c6fe-9e93-4ccd-8e6c-c04de9a8289b">
+    <Package InstallerVersion="200" Compressed="yes" />
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="Installer" Level="1">
+        <ComponentGroupRef Id="MyComponentGroupId" />
+        <ComponentGroupRef Id="DataComponentGroupId" />
+    </Feature>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+        <Directory Id="$(var.PlatformProgramFilesFolder)">
+            <Directory Id="INSTALLDIR" Name="Test Bug">
+                <Directory Id="MyProgramDir">
+                    <Directory Id="src" Name="src" />
+                </Directory>
+                <Directory Id="NSSMDIR" />
+            </Directory>
+        </Directory>
+    </Directory>
+
+    <ComponentGroup Id="DataComponentGroupId">
+        <Component Id="NSSMComponent" Directory="NSSMDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5">
+            <?if Win64 = "yes" ?>
+            <File Id="NSSMFIle" KeyPath="yes" Source="distrib/nssm/win64/nssm.exe" />
+            <?else ?>
+            <File Id="NSSMFIle" KeyPath="yes" Source="distrib/nssm/win32/nssm.exe" />
+            <?endif ?>
+        </Component>
+    </ComponentGroup>
+
+    <CustomAction Id="CreateService" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
+    ExeCommand='"[NSSMDIR]nssm" install XXXService "[MyProgramDir]src\main.exe" xxx' />
+    <CustomAction Id="SetServiceDirectory" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
+    ExeCommand='"[NSSMDIR]nssm" set XXXService AppDirectory [src]' />
+    <CustomAction Id="StartService" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
+    ExeCommand='"[NSSMDIR]nssm" start XXXService' />
+    <CustomAction Id="StopService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" stop XXXService' Execute="deferred" Impersonate="no" Return="ignore" />
+    <CustomAction Id="UninstallService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" remove XXXService confirm' Execute="deferred" Impersonate="no" Return="ignore" />
+    <InstallExecuteSequence>
+        <Custom Action="CreateService" After="InstallServices" />
+        <Custom Action="SetServiceDirectory" After="InstallServices" />
+        <Custom Action="StartService" After="StartServices" />
+        <Custom Action="UninstallService" Before="DeleteServices" />
+        <Custom Action="StopService" Before="StopServices" />
+    </InstallExecuteSequence>
+  </Product>
+</Wix>
