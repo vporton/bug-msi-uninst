@@ -36,7 +36,7 @@
     </ComponentGroup>
 
     <CustomAction Id="CreateService" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
-    ExeCommand='"[INSTALLDIR]nssm" install XXXService "[MyProgramDir]main.exe" xxx' />
+    ExeCommand='"[INSTALLDIR]nssm" install XXXService "[INSTALLDIR]main.exe" xxx' />
     <CustomAction Id="SetServiceDirectory" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
     ExeCommand='"[INSTALLDIR]nssm" set XXXService AppDirectory [src]' />
     <CustomAction Id="StartService" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
