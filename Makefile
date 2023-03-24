@@ -17,7 +17,7 @@ my-${ARCH}.msi: windows/my-${ARCH}.wixobj src/main.exe
 	ARCH=${ARCH} MySource="src" candle -arch ${ARCH} $< -o $@
 
 ifeq (${ARCH}, x64)
-GCC_FLAGS = -m64
+GCC_FLAGS = #-m64  # does not work on my installation
 else
 GCC_FLAGS = -m32
 endif
