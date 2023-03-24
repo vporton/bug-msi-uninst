@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?if $(env.ARCH) = x64 ?>
-  <?define ProductName = "Test Bug (64 bit)" ?>
+  <?define ProductName = "Uninstall Bug (64 bit)" ?>
   <?define Win64 = "yes" ?>
   <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
 <?else ?>
-  <?define ProductName = "Test Bug" ?>
+  <?define ProductName = "Uninstall Bug" ?>
   <?define Win64 = "no" ?>
   <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 <?endif ?>
@@ -14,13 +14,13 @@
 
     <MediaTemplate EmbedCab="yes" />
 
-    <Feature Id="ProductFeature" Title="Installer" Level="1">
+    <Feature Id="ProductFeature" Title="Uninstall Bug" Level="1">
         <ComponentGroupRef Id="MyComponentGroupId" />
     </Feature>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
         <Directory Id="$(var.PlatformProgramFilesFolder)">
-            <Directory Id="INSTALLDIR" Name="Test Bug" />
+            <Directory Id="INSTALLDIR" Name="Uninstall Bug" />
         </Directory>
     </Directory>
 
