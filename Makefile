@@ -6,14 +6,21 @@ ARCH=x64
 .PHONY: msi
 msi: my-${ARCH}.msi
 
-my-${ARCH}.msi: windows/my-${ARCH}.wixobj windows/files-${ARCH}.tmp-${ARCH}.wixobj
-	light -o $@ windows/my-${ARCH}.wixobj windows/files-${ARCH}.tmp-${ARCH}.wixobj
+.PHONY: clean
+clean:
+	rm -f src/*.exe windows/*.wixobj *.wixpdb *.msi
 
-windows/files-${ARCH}.tmp.wxs: src/main.exe
-	heat dir src -o $@ -scom -frag -srd -sreg -gg -cg MyComponentGroupId -dr src -var env.MySource
+my-${ARCH}.msi: windows/my-${ARCH}.wixobj
+	light -o $@ windows/my-${ARCH}.wixobj
 
 %-${ARCH}.wixobj: %.wxs
 	ARCH=${ARCH} MySource="src" candle -arch ${ARCH} $< -o $@
 
+ifeq (${ARCH}, x64)
+GCC_FLAGS = -m64
+else
+GCC_FLAGS = -m32
+endif
+
 src/main.exe: src/main.c
-	gcc -o $@ $<
+	gcc -o $@ ${GCC_FLAGS} -O2 $<
