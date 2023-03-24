@@ -16,7 +16,6 @@
 
     <Feature Id="ProductFeature" Title="Installer" Level="1">
         <ComponentGroupRef Id="MyComponentGroupId" />
-        <ComponentGroupRef Id="DataComponentGroupId" />
     </Feature>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -28,11 +27,6 @@
     <ComponentGroup Id="MyComponentGroupId">
         <Component Id="MyComponent" Directory="INSTALLDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5">
             <File Id="MainFile" KeyPath="yes" Source="src/main.exe" />
-        </Component>
-    </ComponentGroup>
-
-    <ComponentGroup Id="DataComponentGroupId">
-        <Component Id="NSSMComponent" Directory="NSSMDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5">
             <?if Win64 = "yes" ?>
             <File Id="NSSMFIle" KeyPath="yes" Source="distrib/nssm/win64/nssm.exe" />
             <?else ?>
@@ -41,14 +35,14 @@
         </Component>
     </ComponentGroup>
 
-    <CustomAction Id="CreateService" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
-    ExeCommand='"[NSSMDIR]nssm" install XXXService "[MyProgramDir]main.exe" xxx' />
-    <CustomAction Id="SetServiceDirectory" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
-    ExeCommand='"[NSSMDIR]nssm" set XXXService AppDirectory [src]' />
-    <CustomAction Id="StartService" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
-    ExeCommand='"[NSSMDIR]nssm" start XXXService' />
-    <CustomAction Id="StopService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" stop XXXService' Impersonate="no" Return="ignore" />
-    <CustomAction Id="UninstallService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" remove XXXService confirm' Impersonate="no" Return="ignore" />
+    <CustomAction Id="CreateService" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
+    ExeCommand='"[INSTALLDIR]nssm" install XXXService "[MyProgramDir]main.exe" xxx' />
+    <CustomAction Id="SetServiceDirectory" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
+    ExeCommand='"[INSTALLDIR]nssm" set XXXService AppDirectory [src]' />
+    <CustomAction Id="StartService" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
+    ExeCommand='"[INSTALLDIR]nssm" start XXXService' />
+    <CustomAction Id="StopService" Directory="INSTALLDIR" ExeCommand='"[INSTALLDIR]nssm" stop XXXService' Impersonate="no" Return="ignore" />
+    <CustomAction Id="UninstallService" Directory="INSTALLDIR" ExeCommand='"[INSTALLDIR]nssm" remove XXXService confirm' Impersonate="no" Return="ignore" />
     <InstallExecuteSequence>
         <Custom Action="CreateService" After="InstallServices" />
         <Custom Action="SetServiceDirectory" After="InstallServices" />
