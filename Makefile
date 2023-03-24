@@ -10,7 +10,7 @@ msi: my-${ARCH}.msi
 clean:
 	rm -f src/*.exe windows/*.wixobj *.wixpdb *.msi
 
-my-${ARCH}.msi: windows/my-${ARCH}.wixobj
+my-${ARCH}.msi: windows/my-${ARCH}.wixobj src/main.exe
 	light -o $@ windows/my-${ARCH}.wixobj
 
 %-${ARCH}.wixobj: %.wxs
