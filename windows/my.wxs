@@ -9,7 +9,7 @@
   <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
 <?endif ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="1edc84cf-3a2b-4be9-ab5d-a1553c37e8ef" Name="Installer" Language="1033" Version="1.0.0.0" Manufacturer="Example" UpgradeCode="2a82c6fe-9e93-4ccd-8e6c-c04de9a8289b">
+  <Product Id="1edc84cf-3a2b-4be9-ab5d-a1553c37e8ef" Name="Uninstall Bug" Language="1033" Version="1.0.0.0" Manufacturer="Example" UpgradeCode="2a82c6fe-9e93-4ccd-8e6c-c04de9a8289b">
     <Package InstallerVersion="200" Compressed="yes" />
 
     <MediaTemplate EmbedCab="yes" />
