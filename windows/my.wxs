@@ -25,12 +25,12 @@
     </Directory>
 
     <ComponentGroup Id="MyComponentGroupId">
-        <Component Id="MyComponent" Directory="INSTALLDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5">
-            <File Id="MainFile" KeyPath="yes" Source="src/main.exe" />
+        <Component Id="MyComponent" Directory="INSTALLDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5" KeyPath="yes">
+            <File Id="MainFile" Source="src/main.exe" />
             <?if Win64 = "yes" ?>
-            <File Id="NSSMFIle" KeyPath="yes" Source="distrib/nssm/win64/nssm.exe" />
+            <File Id="NSSMFIle" Source="distrib/nssm/win64/nssm.exe" />
             <?else ?>
-            <File Id="NSSMFIle" KeyPath="yes" Source="distrib/nssm/win32/nssm.exe" />
+            <File Id="NSSMFIle" Source="distrib/nssm/win32/nssm.exe" />
             <?endif ?>
         </Component>
     </ComponentGroup>
