@@ -46,8 +46,8 @@
     ExeCommand='"[NSSMDIR]nssm" set XXXService AppDirectory [src]' />
     <CustomAction Id="StartService" Directory="MyProgramDir" Execute="deferred" Impersonate="no"
     ExeCommand='"[NSSMDIR]nssm" start XXXService' />
-    <CustomAction Id="StopService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" stop XXXService' Execute="deferred" Impersonate="no" Return="ignore" />
-    <CustomAction Id="UninstallService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" remove XXXService confirm' Execute="deferred" Impersonate="no" Return="ignore" />
+    <CustomAction Id="StopService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" stop XXXService' Impersonate="no" Return="ignore" />
+    <CustomAction Id="UninstallService" Directory="MyProgramDir" ExeCommand='"[NSSMDIR]nssm" remove XXXService confirm' Impersonate="no" Return="ignore" />
     <InstallExecuteSequence>
         <Custom Action="CreateService" After="InstallServices" />
         <Custom Action="SetServiceDirectory" After="InstallServices" />
