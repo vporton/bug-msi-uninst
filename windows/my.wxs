@@ -47,8 +47,8 @@
         <Custom Action="CreateService" After="InstallServices" />
         <Custom Action="SetServiceDirectory" After="InstallServices" />
         <Custom Action="StartService" After="StartServices" />
-        <Custom Action="UninstallService" After="DeleteServices" />
-        <Custom Action="StopService" After="StopServices" />
+        <Custom Action="UninstallService" After="InstallInitialize" />
+        <Custom Action="StopService" After="InstallInitialize" />
     </InstallExecuteSequence>
   </Product>
 </Wix>
