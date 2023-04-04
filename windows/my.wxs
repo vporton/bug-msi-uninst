@@ -26,29 +26,29 @@
 
     <ComponentGroup Id="MyComponentGroupId">
         <Component Id="MyComponent" Directory="INSTALLDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5" KeyPath="yes">
-            <File Id="MainFile" Source="src/main.exe" />
-            <?if Win64 = "yes" ?>
-            <File Id="NSSMFIle" Source="distrib/nssm/win64/nssm.exe" />
-            <?else ?>
-            <File Id="NSSMFIle" Source="distrib/nssm/win32/nssm.exe" />
-            <?endif ?>
+            <File Id="test.tmpl.txt" Source="test.tmpl.txt" />
         </Component>
     </ComponentGroup>
 
-    <CustomAction Id="CreateService" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
-    ExeCommand='"[INSTALLDIR]nssm" install XXXService "[INSTALLDIR]main.exe" xxx' />
-    <CustomAction Id="SetServiceDirectory" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
-    ExeCommand='"[INSTALLDIR]nssm" set XXXService AppDirectory [INSTALLDIR]' />
-    <CustomAction Id="StartService" Directory="INSTALLDIR" Execute="deferred" Impersonate="no"
-    ExeCommand='"[INSTALLDIR]nssm" start XXXService' />
-    <CustomAction Id="StopService" Directory="INSTALLDIR" Execute="deferred" ExeCommand='"[INSTALLDIR]nssm" stop XXXService' Impersonate="no" Return="ignore" />
-    <CustomAction Id="UninstallService" Directory="INSTALLDIR" Execute="deferred" ExeCommand='"[INSTALLDIR]nssm" remove XXXService confirm' Impersonate="no" Return="ignore" />
+    <Binary Id="SetupId" SourceFile="windows\custom.exe" />
+    <CustomAction
+        Id="MyInstallConfig"
+        BinaryKey="SetupId"
+        Execute="deferred"
+        Return="check"
+        ExeCommand='/i "[INSTALLDIR]test.tmpl.txt" "[INSTALLDIR]test.txt" xxx'
+        Impersonate="no" />
+    <CustomAction
+        Id="MyUninstallCleanup"
+        BinaryKey="SetupId"
+        Execute="deferred"
+        Return="check"
+        ExeCommand='/u "[ConfigDir]config.cfg"'
+        Impersonate="no" />
+
     <InstallExecuteSequence>
-        <Custom Action="CreateService" After="InstallServices" />
-        <Custom Action="SetServiceDirectory" After="InstallServices" />
-        <Custom Action="StartService" After="StartServices" />
-        <Custom Action="UninstallService" After="InstallInitialize" />
-        <Custom Action="StopService" After="InstallInitialize" />
+        <Custom Action="MyInstallConfig" After="InstallFiles">NOT Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
+        <Custom Action="MyUninstallCleanup" Before="RemoveFiles">REMOVE="ALL"</Custom>
     </InstallExecuteSequence>
   </Product>
 </Wix>
