@@ -44,14 +44,18 @@
     <CustomAction
         Id="MyUninstallCleanup"
         BinaryKey="SetupId"
-        Execute="deferred"
-        Return="check"
+        Execute="deferred"        
         ExeCommand='/u "[ConfigDir]test.txt"'
-        Impersonate="no" />
+        Impersonate="no" 
+		Return="check"/>
 
-    <InstallExecuteSequence>
-        <Custom Action="MyInstallConfig" After="InstallFiles" />
-        <Custom Action="MyUninstallCleanup" Before="RemoveFiles" />
-    </InstallExecuteSequence>
+		<InstallExecuteSequence>
+			<Custom Action="MyInstallConfig" After="InstallFiles">
+				NOT Installed AND NOT UPGRADINGPRODUCTCODE
+			</Custom>
+			<Custom Action="MyUninstallCleanup" Before="RemoveFiles">
+				REMOVE="ALL"
+			</Custom>
+		</InstallExecuteSequence>
   </Product>
 </Wix>
