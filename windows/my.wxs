@@ -28,7 +28,7 @@
     </Directory>
 
     <ComponentGroup Id="MyComponentGroupId">
-        <Component Id="MyComponent" Directory="INSTALLDIR" Guid="dfb1e839-1f62-4613-b323-daa3166caab5" KeyPath="yes">
+        <Component Id="MyComponent" Directory="ConfigDir" Guid="dfb1e839-1f62-4613-b323-daa3166caab5" KeyPath="yes">
             <File Id="test.tmpl.txt" Source="test.tmpl.txt" />
         </Component>
     </ComponentGroup>
