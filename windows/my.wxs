@@ -23,7 +23,7 @@
             <Directory Id="INSTALLDIR" Name="Uninstall Bug" />
         </Directory>
         <Directory Id="CommonAppDataFolder">
-            <Directory Id="ConfigDir" />
+            <Directory Id="ConfigDir" Name="Uninstall Bug" />
         </Directory>
     </Directory>
 
