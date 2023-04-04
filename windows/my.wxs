@@ -22,6 +22,9 @@
         <Directory Id="$(var.PlatformProgramFilesFolder)">
             <Directory Id="INSTALLDIR" Name="Uninstall Bug" />
         </Directory>
+        <Directory Id="CommonAppDataFolder">
+            <Directory Id="ConfigDir" />
+        </Directory>
     </Directory>
 
     <ComponentGroup Id="MyComponentGroupId">
@@ -36,19 +39,19 @@
         BinaryKey="SetupId"
         Execute="deferred"
         Return="check"
-        ExeCommand='/i "[INSTALLDIR]test.tmpl.txt" "[INSTALLDIR]test.txt" xxx'
+        ExeCommand='/i "[ConfigDir]test.tmpl.txt" "[ConfigDir]test.txt" xxx'
         Impersonate="no" />
     <CustomAction
         Id="MyUninstallCleanup"
         BinaryKey="SetupId"
         Execute="deferred"
         Return="check"
-        ExeCommand='/u "[INSTALLDIR]test.txt"'
+        ExeCommand='/u "[ConfigDir]test.txt"'
         Impersonate="no" />
 
     <InstallExecuteSequence>
-        <Custom Action="MyInstallConfig" After="InstallFiles">NOT Installed AND NOT UPGRADINGPRODUCTCODE</Custom>
-        <Custom Action="MyUninstallCleanup" Before="RemoveFiles">REMOVE="ALL"</Custom>
+        <Custom Action="MyInstallConfig" After="InstallFiles" />
+        <Custom Action="MyUninstallCleanup" Before="RemoveFiles" />
     </InstallExecuteSequence>
   </Product>
 </Wix>
