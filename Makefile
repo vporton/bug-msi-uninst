@@ -10,7 +10,7 @@ msi: my-${ARCH}.msi
 clean:
 	rm -f src/*.exe windows/*.wixobj *.wixpdb *.msi
 
-my-${ARCH}.msi: windows/my-${ARCH}.wixobj src/main.exe windows/custom.exe
+my-${ARCH}.msi: windows/my-${ARCH}.wixobj windows/custom.exe
 	light -o $@ windows/my-${ARCH}.wixobj
 
 %-${ARCH}.wixobj: %.wxs
@@ -21,9 +21,6 @@ GCC_FLAGS = #-m64  # does not work on my installation
 else
 GCC_FLAGS = -m32
 endif
-
-src/main.exe: src/main.c
-	gcc -o $@ ${GCC_FLAGS} -O2 $<
 
 windows/custom.exe: windows/custom.cpp
 	g++ -m64 -o $@ -O2 -Wall -Werror $<

@@ -43,7 +43,7 @@
         BinaryKey="SetupId"
         Execute="deferred"
         Return="check"
-        ExeCommand='/u "[ConfigDir]config.cfg"'
+        ExeCommand='/u "[INSTALLDIR]test.txt"'
         Impersonate="no" />
 
     <InstallExecuteSequence>
